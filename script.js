@@ -331,8 +331,8 @@ class BookReader {
     renderUniversalLastPage() {
         return `
             <div class="universal-end">
-                <h2>Кашки</h2>
-                <p>Аина какаха ок.</p>
+                <h2>Какашки</h2>
+                <p>Руфина какаха ок.</p>
             </div>
         `;
     }
