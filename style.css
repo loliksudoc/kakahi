@@ -1,0 +1,716 @@
+/**
+ * 🍒 Стили электронной книги
+ * Вишневая, романтическая эстетика
+ */
+
+:root {
+    /* 🎨 Цветовая палитра */
+    --color-dark-cherry: #5a1d2f;
+    --color-cherry: #8b1a3a;
+    --color-light-cherry: #c41e63;
+    --color-rose: #d4476b;
+    --color-light-rose: #f4a8d4;
+    --color-cream: #fef5f1;
+    --color-gold: #d4a574;
+    --color-text: #3d1825;
+    
+    /* ✨ Эффекты */
+    --shadow-soft: 0 10px 40px rgba(139, 26, 58, 0.15);
+    --shadow-deep: 0 20px 60px rgba(139, 26, 58, 0.25);
+    --glow-cherry: 0 0 30px rgba(196, 30, 99, 0.3);
+    
+    /* ⏱️ Анимация */
+    --duration-flip: 0.8s;
+    --duration-hover: 0.3s;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 🌍 ГЛОБАЛЬНЫЕ СТИЛИ */
+/* ═══════════════════════════════════════════════════════════ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: linear-gradient(135deg, #3d1825 0%, #5a1d2f 25%, #2d0f1a 50%, #5a1d2f 75%, #3d1825 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    font-family: 'Georgia', 'Garamond', serif;
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* ✨ ФОНОВЫЙ ГЛЛОУ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.background-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(212, 71, 107, 0.1) 0%,
+        rgba(139, 26, 58, 0.05) 30%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.emoji-background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.emoji-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    padding: 18px 10px;
+    background: rgba(22, 12, 22, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 32px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(18px);
+    z-index: 12;
+}
+
+.emoji-sidebar-inner {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+}
+
+.emoji-btn-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.emoji-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.08);
+}
+
+.emoji-btn:hover {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.emoji-btn.active {
+    background: rgba(244, 168, 212, 0.35);
+    box-shadow: 0 0 0 2px rgba(244, 168, 212, 0.16);
+}
+
+.emoji-tag {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--color-text);
+    font-size: 11px;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+}
+
+.emoji-tag::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.bg-emoji {
+    position: absolute;
+    display: inline-flex;
+    font-size: 42px;
+    opacity: 0.14;
+    animation: floatEmoji ease-in-out infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes floatEmoji {
+    0% { transform: translateY(0) scale(0.88); opacity: 0.08; }
+    50% { transform: translateY(-30px) scale(1); opacity: 0.22; }
+    100% { transform: translateY(0) scale(0.88); opacity: 0.08; }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 🎯 ПРЕДСТАВЛЕНИЯ (COVER vs READER) */
+/* ═══════════════════════════════════════════════════════════ */
+
+.cover-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.reader-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
+
+.reader-view.hidden {
+    display: none;
+    opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📚 3D КНИГА (ОБЛОЖКА) */
+/* ═══════════════════════════════════════════════════════════ */
+
+.book-3d-container {
+    perspective: 1500px;
+    width: 300px;
+    height: 400px;
+    cursor: pointer;
+}
+
+.book-3d {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: float3d 3s ease-in-out infinite;
+}
+
+.book-3d-container:hover .book-3d {
+    filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes float3d {
+    0%, 100% { transform: translateY(0px) rotateY(-15deg) rotateX(5deg); }
+    50% { transform: translateY(-20px) rotateY(-15deg) rotateX(5deg); }
+}
+
+/* Передняя обложка */
+.book-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 
+        -10px 10px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Спинка книги */
+.book-spine {
+    position: absolute;
+    left: -30px;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(90deg, #5a1d2f 0%, #8b1a3a 50%, #5a1d2f 100%);
+    transform: rotateY(-90deg);
+    transform-origin: left center;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+    border-radius: 4px 0 0 4px;
+    z-index: 5;
+}
+
+/* Задняя обложка */
+.book-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #fdf8f5 0%, #fef5f1 100%);
+    transform: rotateY(180deg);
+    transform-origin: center center;
+    border-radius: 8px;
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 💬 ПОДСКАЗКА */
+/* ═══════════════════════════════════════════════════════════ */
+
+.click-hint {
+    color: #fef5f1;
+    font-size: 16px;
+    opacity: 0.7;
+    animation: pulse 2s ease-in-out infinite;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+
+.book-container {
+    position: relative;
+    width: 90vw;
+    height: 90vh;
+    max-width: 900px;
+    max-height: 600px;
+    perspective: 1000px;
+    z-index: 10;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📖 КНИГА */
+/* ═══════════════════════════════════════════════════════════ */
+
+.book {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 40px;
+    background: linear-gradient(135deg, #fef5f1 0%, #fdf8f5 100%);
+    border-radius: 20px;
+    box-shadow: 
+        var(--shadow-deep),
+        0 0 60px rgba(212, 71, 107, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.book::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 20% 50%, rgba(244, 168, 212, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(212, 71, 107, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📄 СТРАНИЦА */
+/* ═══════════════════════════════════════════════════════════ */
+
+.page {
+    background: linear-gradient(to right, #fffbf8, #fef5f1);
+    border-radius: 8px;
+    padding: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 
+        inset 0 1px 3px rgba(255, 255, 255, 0.8),
+        0 4px 15px rgba(139, 26, 58, 0.1);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-rose) #f0e5e0;
+}
+
+.page::-webkit-scrollbar {
+    width: 6px;
+}
+
+.page::-webkit-scrollbar-track {
+    background: #f0e5e0;
+    border-radius: 10px;
+}
+
+.page::-webkit-scrollbar-thumb {
+    background: var(--color-rose);
+    border-radius: 10px;
+}
+
+.page::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cherry);
+}
+
+/* Левая страница */
+.page-left {
+    border-right: 2px solid rgba(212, 71, 107, 0.1);
+    text-align: left;
+    animation: slideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px) rotateY(25deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) rotateY(0);
+    }
+}
+
+/* Правая страница */
+.page-right {
+    border-left: 2px solid rgba(212, 71, 107, 0.1);
+    text-align: right;
+    animation: slideInRight 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px) rotateY(-25deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) rotateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📝 СОДЕРЖИМОЕ СТРАНИЦЫ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.page-content {
+    flex: 1;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--color-text);
+    text-align: justify;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.page-content::first-letter {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--color-cherry);
+    float: left;
+    line-height: 1;
+    margin-right: 8px;
+    margin-top: 3px;
+}
+
+.universal-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-family: 'Times New Roman', Georgia, serif;
+    text-align: center;
+    color: var(--color-text);
+    letter-spacing: 0.8px;
+    padding: 24px;
+}
+
+.universal-end h2 {
+    font-size: 32px;
+    margin-bottom: 18px;
+    color: var(--color-cherry);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.universal-end p {
+    max-width: 84%;
+    font-size: 18px;
+    line-height: 1.9;
+    opacity: 0.95;
+    margin-bottom: 18px;
+}
+
+.universal-end p:last-child {
+    margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 🔢 НОМЕР СТРАНИЦЫ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.page-number {
+    font-size: 12px;
+    color: var(--color-rose);
+    opacity: 0.6;
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.page-number-left {
+    text-align: left;
+}
+
+.page-number-right {
+    text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📑 ЭФФЕКТ СГИБА СТРАНИЦЫ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.page-fold {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(212, 71, 107, 0.05),
+        rgba(212, 71, 107, 0) 100%
+    );
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 🎮 КНОПКИ УПРАВЛЕНИЯ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 20;
+}
+
+.btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(244, 168, 212, 0.5);
+    background: linear-gradient(135deg, #8b1a3a 0%, #c41e63 100%);
+    color: #fef5f1;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-hover) ease;
+    box-shadow: 
+        0 4px 15px rgba(139, 26, 58, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+}
+
+.btn:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: 
+        0 6px 25px rgba(139, 26, 58, 0.4),
+        0 0 25px rgba(212, 71, 107, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(244, 168, 212, 0.8);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📊 ИНДИКАТОР СТРАНИЦЫ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.page-indicator {
+    color: #fef5f1;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 150px;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 📱 АДАПТИВНОСТЬ */
+/* ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .book-container {
+        width: 95vw;
+        height: 85vh;
+    }
+
+    .book {
+        padding: 25px;
+        gap: 15px;
+    }
+
+    .page {
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    .page-content::first-letter {
+        font-size: 2em;
+    }
+
+    .btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    .controls {
+        gap: 15px;
+        bottom: 20px;
+    }
+
+    .page-indicator {
+        font-size: 12px;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .book-container {
+        width: 98vw;
+        height: 80vh;
+    }
+
+    .book {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 10px;
+    }
+
+    .page {
+        padding: 15px;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .page-left,
+    .page-right {
+        border-right: none;
+        border-left: none;
+        text-align: left;
+    }
+
+    .page-number-right {
+        text-align: left;
+    }
+
+    .btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .controls {
+        gap: 10px;
+        bottom: 15px;
+    }
+
+    .page-indicator {
+        font-size: 11px;
+        min-width: 100px;
+    }
+
+    .page-fold {
+        display: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 🎯 ФОКУС И АКТИВНОЕ СОСТОЯНИЕ */
+/* ═══════════════════════════════════════════════════════════ */
+
+.btn:focus-visible {
+    outline: 3px solid rgba(244, 168, 212, 0.5);
+    outline-offset: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* 🎬 АНИМАЦИЯ ВХОДА */
+/* ═══════════════════════════════════════════════════════════ */
+
+@keyframes bookAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) rotateX(10deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateX(0);
+    }
+}
+
+.book {
+    animation: bookAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

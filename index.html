@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Электронная Книга</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glow"></div>
+    <div class="emoji-background" id="emojiBackground"></div>
+    <aside class="emoji-sidebar" id="emojiSidebar">
+        <div class="emoji-sidebar-inner">
+            <button class="emoji-btn active" data-emoji="🌸" aria-label="Романтический фон">🌸</button>
+            <button class="emoji-btn" data-emoji="✨" aria-label="Искристый фон">✨</button>
+            <button class="emoji-btn" data-emoji="💕" aria-label="Любовный фон">💕</button>
+            <div class="emoji-btn-wrapper">
+                <button class="emoji-btn" data-emoji="💩" aria-label="Какашка фон">💩</button>
+                <span class="emoji-tag">это аина</span>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- 📚 3D ОБЛОЖКА КНИГИ -->
+    <div class="cover-view" id="coverView">
+        <div class="book-3d-container" id="book3dContainer">
+            <div class="book-3d">
+                <!-- Спинка книги -->
+                <div class="book-spine"></div>
+                
+                <!-- Обложка с картинкой -->
+                <div class="book-cover">
+                    <img src="./aisha.png" alt="Обложка Aisha" class="cover-image">
+                </div>
+
+                <!-- Задняя обложка -->
+                <div class="book-back"></div>
+            </div>
+        </div>
+        <div class="click-hint">Нажми на книгу</div>
+    </div>
+    
+    <!-- 📚 ОТКРЫТАЯ КНИГА -->
+    <div class="reader-view hidden" id="readerView">
+        <div class="book-container">
+            <!-- 📖 Сама книга -->
+            <div class="book" id="book">
+                <!-- Левая страница -->
+                <div class="page page-left" id="pageLeft">
+                    <div class="page-content" id="pageLeftContent"></div>
+                    <div class="page-number page-number-left" id="pageNumberLeft"></div>
+                </div>
+
+                <!-- Правая страница -->
+                <div class="page page-right" id="pageRight">
+                    <div class="page-content" id="pageRightContent"></div>
+                    <div class="page-number page-number-right" id="pageNumberRight"></div>
+                </div>
+
+                <!-- Эффект сгиба страницы -->
+                <div class="page-fold"></div>
+            </div>
+        </div>
+
+        <!-- 🎮 Панель управления -->
+        <div class="controls">
+            <!-- Кнопка назад -->
+            <button class="btn btn-prev" id="btnPrev" title="Предыдущая страница">
+                <span class="icon">‹</span>
+            </button>
+
+            <!-- Индикатор страницы -->
+            <div class="page-indicator">
+                <span id="pageIndicator">Обложка</span>
+            </div>
+
+            <!-- Кнопка вперёд -->
+            <button class="btn btn-next" id="btnNext" title="Следующая страница">
+                <span class="icon">›</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 🎵 Звук перелистывания (Web Audio API) -->
+    <div id="soundCanvas" style="display: none;"></div>
+
+    <!-- 📖 Скрипты -->
+    <script src="book_cfg.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
